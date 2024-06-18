@@ -231,7 +231,7 @@ let dialog = document.getElementById("task-dialog");
 
 let addProject = document.getElementById("add-project");
 addProject.addEventListener('click', () => {
-  openProjectForm;
+  openProjectForm();
 });
 
 function openProjectForm() {
@@ -340,7 +340,7 @@ function renderTasks(tasks) {
 
 let addTask = document.getElementById("add-task");
 addTask.addEventListener("click", () => {
-  openTaskForm;
+  openTaskForm();
 });
 
 function openTaskForm() {
