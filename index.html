@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <p id="to">To<span id="do">Do</span></p>
+    <div class="container">
+      <nav>
+        <div class="projects">
+          <div class="project">
+            <p id="project-heading">Projects</p>
+            <span id="add-project-icon" class="material-symbols-outlined">
+              add
+            </span>
+          </div>
+          <ul id="project-list">
+            <li class="selected" >Default</li>
+          </ul>
+        </div>
+      </nav>
+      <main>
+        <p id="tasks">Tasks</p>
+        <div class="task-list"></div>
+        <button id="add-task-btn">Add Task</button>
+      </main>
+      <dialog class="new-task-dialog hidden">
+        <h2>Add Task</h2>
+        <form>
+          <input
+            type="text"
+            id="title-input"
+            name="title"
+            placeholder="Title"
+            required
+          />
+
+          <input
+            id="description-input"
+            name="description"
+            type="text"
+            placeholder="Description"
+          />
+
+          <input type="date" id="due-date-input" name="due-date" />
+
+          <div class="priority">
+            <label for="priority-input">Priority</label>
+            <select id="priority-input">
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </div>
+
+          <button id="new-task-add-button">Add</button>
+          <button id="new-task-cancel-button">Cancel</button>
+        </form>
+      </dialog>
+      <dialog class="new-project-dialog hidden">
+        <h2>Add Project</h2>
+        <form>
+          <ul>
+            <li>
+              <label for="project-title-input">Title</label>
+              <input
+                type="text"
+                id="project-title-input"
+                name="title"
+                required
+              />
+            </li>
+            <li>
+              <button id="new-project-add-button">Add</button>
+              <button id="new-project-cancel-button">Cancel</button>
+            </li>
+          </ul>
+        </form>
+      </dialog>
+    </div>
+    <style>
+      /* Styling for task list */
+      .task-list {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      /* Styling for individual task items */
+      .task-item {
+        margin-bottom: 10px;
+        padding: 10px;
+        position: relative; /* Needed for positioning the checkbox and text */
+      }
+
+      /* Styling for completed tasks */
+      .task-item.completed .title {
+        text-decoration: line-through;
+      }
+
+      /* Styling for checkbox */
+      .task-checkbox {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        opacity: 0; /* Hide the actual checkbox */
+        width: 20px;
+        height: 20px;
+      }
+
+      /* Custom styling for checkbox appearance */
+      .task-checkbox + label {
+        position: relative;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+      }
+
+      .task-checkbox:checked + label::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 7px;
+        width: 6px;
+        height: 12px;
+        border: solid #000;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+      }
+
+      /* Hover effect for task items */
+      #project-list li:hover {
+        background-color: #252529;
+        color: #dedffa;
+        padding: 6px;
+        border: 8px;
+      }
+
+      /* Selected project styling */
+      #project-list li.selected {
+        background-color: #252529;
+        font-weight: bold;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        background-color: #121215;
+      }
+      .hidden {
+        display: none;
+      }
+      dialog {
+        border-radius: 12px;
+        padding: 12px;
+        background-color: #18181c;
+        color: #e3e5fa;
+        gap: 8px;
+        border: none;
+      }
+      dialog::backdrop {
+        background: rgba(0, 0, 0, 0.8);
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 8px;
+        width: 300px;
+      }
+      .priority {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      input,
+      select {
+        padding: 12px;
+        border-radius: 8px;
+        background-color: transparent;
+        color: #e3e5fa;
+        border: 1px solid #dedffa;
+      }
+      input::placeholder {
+        color: #7f7f98;
+      }
+      button {
+        padding: 6px 12px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+      }
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+      }
+      #new-task-add-button,
+      #new-project-add-button {
+        background-color: #7c56f7;
+        color: #dedffa;
+      }
+      #new-task-cancel-button,
+      #new-project-cancel-button {
+        background-color: #e3e5fa;
+        color: #121215;
+      }
+      #to {
+        color: #e3e5fa;
+        font-size: 48px;
+        margin-left: 48px;
+        font-weight: medium;
+      }
+      #do {
+        color: #7a52f9;
+      }
+      .project {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .container {
+        display: flex;
+        gap: 32px;
+        padding: 0 48px 0 48px;
+      }
+      nav {
+        width: 16%;
+        background-color: #18181c;
+        padding: 20px;
+        border-radius: 12px;
+      }
+      main {
+        background-color: #18181c;
+        width: 100%;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        align-items: start;
+      }
+      #add-task-btn {
+        border-radius: 20px;
+        border: 1px solid black;
+        padding: 6px 12px;
+        background-color: #7c56f7;
+        color: #dedffa;
+      }
+
+      #project-heading,
+      #tasks {
+        font-size: 18px;
+        color: #8f93d7;
+      }
+
+      .projects {
+        color: #7f7f98;
+      }
+      ul {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 0;
+        margin: 0;
+      }
+      li {
+        list-style: none;
+      }
+      .task-item {
+        background-color: #252529;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        width: 100%;
+        color: #e3e5fa;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .task-item .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .task-item .title {
+        font-weight: 500;
+        font-size: 18px;
+      }
+      .task-item .description {
+        font-size: 14px;
+        color: #b3b3b3;
+        margin-bottom: 8px;
+      }
+      .task-item .details {
+        display: flex;
+        justify-content: space-between;
+      }
+      .task-item .due-date,
+      .task-item .priority {
+        font-size: 14px;
+        color: #7f7f98;
+      }
+
+      .task-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 16px;
+      }
+
+      .priority-high {
+        border-left: 4px solid #ff6961; /* pastel red */
+      }
+
+      .priority-medium {
+        border-left: 4px solid #ffb347; /* ocher yellow */
+      }
+
+      .priority-low {
+        border-left: 4px solid #77dd77; /* green */
+      }
+    </style>
+  <script defer src="main.js"></script></body>
+</html>
